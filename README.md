@@ -14,10 +14,10 @@ Also an opportunity for bit of Rust (always welcome).
 1. Read the project documentation ✓
 2. Write a high-level overview of function calls within CovidSim.cpp ✓
 3. Build list of outstanding queries related to docs/CovidSim.cpp ✓
-4. Build summary of types and their uses
-5. Come up with vocab for stages in pipeline for later reference as to where labels are used
-6. Come up with an initial architectural overview for new implementation
-7. Summarise contents of all files
+4. Summarise contents of all files
+5. Build summary of types and their uses
+6. Come up with vocab for stages in pipeline for later reference as to where labels are used
+7. Come up with an initial architectural overview for new implementation
 8. List some leaf functions to port
 9. Begin porting some functions
 
