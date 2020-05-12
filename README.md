@@ -11,14 +11,15 @@ Also an opportunity for bit of Rust (always welcome).
 
 ## A vague plan
 
-1. Read the project documentation
-2. Write a high-level overview of function calls within CovidSim.cpp
-3. Build list of outstanding queries related to docs/CovidSim.cpp
+1. Read the project documentation ✓
+2. Write a high-level overview of function calls within CovidSim.cpp ✓
+3. Build list of outstanding queries related to docs/CovidSim.cpp ✓
 4. Build summary of types and their uses
 5. Come up with vocab for stages in pipeline for later reference as to where labels are used
-6. List some leaf functions to port
+6. Come up with an initial architectural overview for new implementation
 7. Summarise contents of all files
-8. Begin porting some functions
+8. List some leaf functions to port
+9. Begin porting some functions
 
 ## High-level overview
 
@@ -67,7 +68,7 @@ Also an opportunity for bit of Rust (always welcome).
 - setall uses two longs to seed all random number generators (Rand.cpp from Pascal)
 - origin destination matrix; is this to show where spread is predicted from/to?
 
-## Outstanding questions or areas to flesh out
+## Areas to flesh out understanding
 
 - Seems to allow predefined data generation seeds?
 - Seems to allow snapshotting and loading model state?
