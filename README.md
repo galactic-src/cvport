@@ -69,12 +69,11 @@ Also an opportunity for bit of Rust (always welcome).
 
 ## Outstanding questions or areas to flesh out
 
-1. Where are GetInputParameter, GetInputParameter2, GetInputParameter3 defined?
-2. Seems to allow predefined data generation seeds?
-3. Seems to allow snapshotting and loading model state?
-4. Why is NumRealisations used so oddly?
-5. RunModel() returns true once according to comments, to reset holiday time. HOw does this work?
-6. Rand.cpp mltmod mentions running on a 32bit machine in a comment. Is 64bit handled?
-7. What do 'holidays' cover? public/school?
-8. What is the third initial seeding mode modelling?
-9. What does CellLookup reference?
+- Seems to allow predefined data generation seeds?
+- Seems to allow snapshotting and loading model state?
+- Why is NumRealisations used so oddly?
+- RunModel() returns true once according to comments, to reset holiday time. HOw does this work?
+- Rand.cpp mltmod mentions running on a 32bit machine in a comment. Is 64bit handled?
+- What do 'holidays' cover? public/school?
+- What is the third initial seeding mode modelling?
+- What does CellLookup reference?
