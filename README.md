@@ -20,6 +20,7 @@ Also an opportunity for bit of Rust (always welcome).
 7. Come up with an initial architectural overview for new implementation
 8. List some leaf functions to port
 9. Begin porting some functions
+10. Revisit outstanding queries
 
 ## High-level overview
 
@@ -67,6 +68,7 @@ Also an opportunity for bit of Rust (always welcome).
 - Uses an InterruptRun boolean for early exit
 - setall uses two longs to seed all random number generators (Rand.cpp from Pascal)
 - origin destination matrix; is this to show where spread is predicted from/to?
+- option for coordinates to be UTM (Universal Transverse Mercator = longitude/latitude)
 
 ## Areas to flesh out understanding
 
@@ -78,3 +80,20 @@ Also an opportunity for bit of Rust (always welcome).
 - What do 'holidays' cover? public/school?
 - What is the third initial seeding mode modelling?
 - What does CellLookup reference?
+- Why is DAYS_PER_YEAR defined to 364 (Constants.h)?
+- NUM_PLACE_TYPES (Country.h) is 4, and the places are: primary/secondary schools, universities and offices. Shouldn't there be other places too? Supermarkets?!
+- Is it a problem that the cached values for trig functions are integer-degrees only? Limited resolution?
+- Are the kernels square? Shouldn't they be circular?
+- Kernel resolution - high-res option 1600 times higher - when does it get used (and why ever use the low-res one)?
+- What is Kernel 'shape'? e.g. P.AirportKernelShape. Seems like a scale factor with different meanings for different kernel types.
+- CACHE_LINE_SIZE 64 - how important is this? Presumably it varies between machines
+- DoInitUpdateProbs - set in SetupModel, triggers UpdateProbs. What does the criterion for doing this again mean? `(lcI - cI) > 0.2` (CovidSim.cpp) 
+- Are all the Rand.h functions used? (e.g. sexpo, sexpo_mt)
+- Comment in Update.cpp starting "currently commenting this out" relating to household digital contact tracting. Is this fine?
+
+## Cleanup
+
+- NUM_SYMPTO_SEVERITY_CLASSES (InfStat.h) is unused
+- InitKernel (Kernels.cpp): DoPlaces parameter is unreferenced, and norm parameter is always 1.0 (no effect)
+- SetupModel.cpp "Binary densi\zty file should contain %i cells." remove \z
+
