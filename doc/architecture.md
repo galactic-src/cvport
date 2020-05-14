@@ -38,8 +38,9 @@ So a brief initial order of play:
 
 1. Create a model consisting only of cells
 2. Add microcells
-3. Add people (static)
-4. Add ability for people to be infected (boolean) 
-5. Add some modelling for spread of disease between people
+3. Add people
+4. Add something like AssignPeopleToPlaces to distribute people across cells
+5. Add ability for people to be infected (boolean) 
+6. Add some modelling for spread of disease between people
 
 If I get that far, hopefully by then I'll have some idea of how I should have approached it in the first place and a better way to structure it!

@@ -74,7 +74,7 @@ Also an opportunity for bit of Rust (always welcome).
 
 - Seems to allow predefined data generation seeds?
 - Seems to allow snapshotting and loading model state?
-- Why is NumRealisations used so oddly?
+- Why is NumRealisations used so oddly (adding/subtracting 1)?
 - RunModel() returns true once according to comments, to reset holiday time. HOw does this work?
 - Rand.cpp mltmod mentions running on a 32bit machine in a comment. Is 64bit handled?
 - What do 'holidays' cover? public/school?
@@ -90,6 +90,8 @@ Also an opportunity for bit of Rust (always welcome).
 - DoInitUpdateProbs - set in SetupModel, triggers UpdateProbs. What does the criterion for doing this again mean? `(lcI - cI) > 0.2` (CovidSim.cpp) 
 - Are all the Rand.h functions used? (e.g. sexpo, sexpo_mt)
 - Comment in Update.cpp starting "currently commenting this out" relating to household digital contact tracting. Is this fine?
+- P.NC (int) is initialised to -1 in CovidSim.cpp but SetupModel runs P.ncw = P.nch = (int)sqrt((double)P.NC); P.NC = P.ncw * P.nch; if !P.DoHeteroDensity.
+
 
 ## Cleanup
 
