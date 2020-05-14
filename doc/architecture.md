@@ -21,11 +21,13 @@ This has allowed at least a basic regression test to be formulated, based on a h
 The lack of testability is a big concern. We can't get around this without
 - avoiding global state
 - making much simpler methods with smaller responsibilities
-- making state objects smaller so that mocks and/or engineered versions can be produced by test factories
+- making state objects smaller so that mocks and/or configured versions can be sensibly created in factory methods for tests
 
 I also wonder whether it would make sense to allow this to work on machines with less than the recommended RAM, using a database to hold state. Data from previous runs could then be made easily accessible for comparison.
 The code has several areas where optimisations have been made. Depending how long ago they were made, they may or may not be appropriate for modern hardware.
 In reimplementing, simplicity should take priority and hot code can be identified later.
+
+I am uncertain how good the random number generation is - not my area. Rather than reimplementing the rand.cpp code, I would certainly look to something like the rand crate.
 
 ##Possible Approach
 
@@ -36,7 +38,7 @@ However, if it did mostly fit the code, it would make for much more testable cod
 
 So a brief initial order of play:
 
-1. Create a model consisting only of cells
+1. Create a model structure consisting only of cells
 2. Add microcells
 3. Add people
 4. Add something like AssignPeopleToPlaces to distribute people across cells
