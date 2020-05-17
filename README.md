@@ -88,14 +88,13 @@ Also an opportunity for bit of Rust (always welcome).
 - What is Kernel 'shape'? e.g. P.AirportKernelShape. Seems like a scale factor with different meanings for different kernel types.
 - CACHE_LINE_SIZE 64 - how important is this? Presumably it varies between machines
 - DoInitUpdateProbs - set in SetupModel, triggers UpdateProbs. What does the criterion for doing this again mean? `(lcI - cI) > 0.2` (CovidSim.cpp) 
-- Are all the Rand.h functions used? (e.g. sexpo, sexpo_mt)
 - Comment in Update.cpp starting "currently commenting this out" relating to household digital contact tracting. Is this fine?
 - P.NC (int) is initialised to -1 in CovidSim.cpp but SetupModel runs P.ncw = P.nch = (int)sqrt((double)P.NC); P.NC = P.ncw * P.nch; if !P.DoHeteroDensity.
 
 
 ## Cleanup
 
-- NUM_SYMPTO_SEVERITY_CLASSES (InfStat.h) is unused
 - InitKernel (Kernels.cpp): DoPlaces parameter is unreferenced, and norm parameter is always 1.0 (no effect)
 - SetupModel.cpp "Binary densi\zty file should contain %i cells." remove \z
+- SetupModel.cpp reads into P.BinFileLen to inspect a magic number in first 4 bytes of density file. Use a different variable.
 

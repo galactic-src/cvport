@@ -27,3 +27,7 @@ I expect it will be most straightforward to add features to this project in a si
 
 #####Setup simulation area IF assuming constant population density
 
+This looks broken - we immediately read P.NC even though it has been set to -1 in CovidSim.cpp?
+Need to run something without a population file and check logging (added to README.md)
+
+
