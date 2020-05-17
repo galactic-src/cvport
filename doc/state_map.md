@@ -175,7 +175,237 @@ param
 | double[] CFR_SARI_ByAge | size=NUM_AGE_GROUPS |
 | double[] CFR_Critical_ByAge | size=NUM_AGE_GROUPS |
 | double[] CFR_ILI_ByAge | size=NUM_AGE_GROUPS |
-
+| double TimeStep | The length of a time step, in days |
+| double SampleTime | The number of days to run for |
+| double SampleStep | The length of a sampling step, in days |
+| double BitmapAspectScale | Height of bitmap / Width of bitmap |
+| int ts_age |  |
+| int DoSeverity | Non-zero (true) if severity analysis should be done |
+| double scalex | pixels per degree (x) in bitmap output |
+| double scaley | pixels per degree (y) in bitmap output |
+| double width | Size of spatial domain (x) in degrees |
+| double height | Size of spatial domain (y) in degrees |
+| double cwidth | Size of spatial domain (x) in cells |
+| double cheight | Size of spatial domain (y) in cells |
+| double mcwidth | Size of spatial domain (x) in microcells |
+| double mcheight | Size of spatial domain (y) in microcells |
+| double KernelShape |  |
+| double KernelScale |  |
+| double KernelP3 |  |
+| double KernelP4 |  |
+| double KernelDelta |  |
+| double MoveKernelShape |  |
+| double MoveKernelScale |  |
+| double MoveKernelP3 |  |
+| double MoveKernelP4 |  |
+| double AirportKernelShape |  |
+| double AirportKernelScale |  |
+| double AirportKernelP3 |  |
+| double AirportKernelP4 |  |
+| double AirportTrafficScale |  |
+| double R0 |  |
+| double R0scale |  |
+| double LocalBeta |  |
+| double LatentPeriod | In days. Mean of icdf (inverse cumulative distribution function) |
+| double InfectiousPeriod | In days. Mean of icdf (inverse cumulative distribution function) |
+| double R0household |  |
+| double R0places |  |
+| double R0spatial |  |
+| double[] Seasonality | size=DAYS_PER_YEAR |
+| double InfectiousnessSD |  |
+| double R0DensityScalePower |  |
+| double InfectiousnessGamA |  |
+| double InfectiousnessGamR |  |
+| double[] ProportionSymptomatic | size=NUM_AGE_GROUPS |
+| double LatentToSymptDelay |  |
+| double SymptInfectiousness |  |
+| double SymptSpatialContactRate |  |
+| double[] SymptPlaceTypeContactRate | size=NUM_PLACE_TYPES |
+| double[] InhibitInterAdunitPlaceAssignment | size=NUM_PLACE_TYPES |
+| double[] SymptPlaceTypeWithdrawalProp | size=NUM_PLACE_TYPES |
+| double CaseAbsenteeismDuration |  |
+| double CaseAbsenteeismDelay |  |
+| double PlaceCloseRoundHousehold | Default 1 (close places around a household), 0 (off) |
+| int AbsenteeismPlaceClosure | Default 0 (off), 1 (on) track place closures in more detail |
+| int MaxAbsentTime | In days.  Max number of days absent, range [0, MAX_ABSENT_TIME].  Default 0 if !P.AbsenteeismPlaceClosure, otherwise MAX_ABSENT_TIME |
+| double CaseAbsentChildPropAdultCarers |  |
+| double[] RelativeTravelRate | size=NUM_AGE_GROUPS |
+| double[] RelativeSpatialContact | size=NUM_AGE_GROUPS |
+| double[] AgeSusceptibility | size=NUM_AGE_GROUPS |
+| double[] AgeInfectiousness | size=NUM_AGE_GROUPS |
+| double[] InitialImmunity | size=NUM_AGE_GROUPS |
+| double[][] WAIFW_Matrix | dims=NUM_AGE_GROUPS * NUM_AGE_GROUPS |
+| double HotelPropLocal |  |
+| double[] JourneyDurationDistrib | size=MAX_TRAVEL_TIME |
+| double[] LocalJourneyDurationDistrib | size=MAX_TRAVEL_TIME |
+| double MeanJourneyTime |  |
+| double MeanLocalJourneyTime |  |
+| int[] InvJourneyDurationDistrib | size=1025 | 
+| int[] InvLocalJourneyDurationDistrib | size=1025 |
+| double HouseholdTrans |  |
+| double[][] HouseholdSizeDistrib | dims=MAX_ADUNITS * MAX_HOUSEHOLD_SIZE |
+| double HouseholdTransPow |  |
+| double[] HouseholdDenomLookup | size=MAX_HOUSEHOLD_SIZE |
+| int[] PlaceTypeAgeMin | size=NUM_PLACE_TYPES |
+| int[] PlaceTypeAgeMax | size=NUM_PLACE_TYPES |
+| int[] PlaceTypeMaxAgeRead | size=NUM_PLACE_TYPES |
+| int[] PlaceTypeAgeMin2 | size=NUM_PLACE_TYPES |
+| int[] PlaceTypeAgeMax2 | size=NUM_PLACE_TYPES |
+| int[] PlaceTypeAgeMin3 | size=NUM_PLACE_TYPES |
+| int[] PlaceTypeAgeMax3 | size=NUM_PLACE_TYPES |
+| int[] PlaceTypeNearestNeighb | size=NUM_PLACE_TYPES |
+| int[] PlaceTypeKernelType | size=NUM_PLACE_TYPES |
+| double[] PlaceTypePropAgeGroup | size=NUM_PLACE_TYPES |
+| double[] PlaceTypePropAgeGroup2 | size=NUM_PLACE_TYPES |
+| double[] PlaceTypePropAgeGroup3 | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeKernelShape | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeKernelScale | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeKernelP3 | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeKernelP4 | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeTrans | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeMeanSize | size=NUM_PLACE_TYPES |
+| double[] PlaceTypePropBetweenGroupLinks | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeSizeSD | size=NUM_PLACE_TYPES 'for lognormal distribution' |
+| double[] PlaceTypeSizePower | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeSizeOffset | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeSizeMax | size=NUM_PLACE_TYPES |
+| double[] PlaceTypeGroupSizeParam1 | size=NUM_PLACE_TYPES |
+| double[][] PlaceExclusivityMatrix | size=(NUM_PLACE_TYPES*NUM_PLACE_TYPES) |
+| double[] PlaceTypePropBetweenGroupLinks | size=NUM_PLACE_TYPES |
+| double[][] PropAgeGroup | dims=MAX_ADUNITS * NUM_AGE_GROUPS |
+| double[][] PopByAdunit | dims=MAX_ADUNITS * 2 |
+| double[][] InvLifeExpecDist | dims=MAX_ADUNITS * 1001 |
+| double PlaceCloseTimeStart |  |
+| double PlaceCloseTimeStart2 |  |
+| double PlaceCloseDurationBase |  |
+| double PlaceCloseDuration |  |
+| double PlaceCloseDuration2 |  |
+| double PlaceCloseDelayMean |  |
+| double PlaceCloseRadius |  |
+| double PlaceCloseRadius2 |  |
+| double[] PlaceCloseEffect | size=NUM_PLACE_TYPES |
+| double[] PlaceClosePropAttending | size=NUM_PLACE_TYPES |
+| double PlaceCloseSpatialRelContact |  |
+| double PlaceCloseHouseholdRelContact |  |
+| double PlaceCloseCasePropThresh |  |
+| double PlaceCloseAdunitPropThresh |  |
+| double PlaceCloseFracIncTrig |  |
+| int DoHolidays |  |
+| int NumHolidays |  |
+| double[] HolidayEffect | size=NUM_PLACE_TYPES |
+| double[] HolidayStartTime | size=DAYS_PER_YEAR |
+| double[] HolidayDuration | size=DAYS_PER_YEAR |
+| double ColourPeriod |  |
+| double[] BoundingBox | size=4 |
+| double BitmapScale |  |
+| double TreatSuscDrop |  |
+| double TreatInfDrop |  |
+| double TreatDeathDrop |  |
+| double TreatSympDrop |  |
+| double TreatDelayMean |  |
+| double TreatTimeStart |  |
+| double TreatPlaceGeogDuration |  |
+| double TreatProphCourseLength |  |
+| double TreatCaseCourseLength |  |
+| double TreatPropRadial |  |
+| double TreatRadius |  |
+| double TreatRadius2 |  |
+| double TreatCellIncThresh |  |
+| double CaseIsolation_CellIncThresh |  |
+| double HHQuar_CellIncThresh |  |
+| double DigitalContactTracing_CellIncThresh |  |
+| double TreatPropCases |  |
+| double DigitalContactTracing_CellIncThresh |  |
+| double TreatPropCaseHouseholds |  |
+| double TreatHouseholdsDuration |  |
+| double[] TreatPlaceProbCaseId | size=NUM_PLACE_TYPES |
+| double[] TreatPlaceTotalProp | size=NUM_PLACE_TYPES |
+| double TreatMaxCoursesBase |  |
+| double TreatNewCoursesRate |  |
+| double TreatNewCoursesStartTime |  |
+| double TreatMaxCourses |  |
+| double VaccSuscDrop |  |
+| double VaccSuscDrop2 |  |
+| double VaccInfDrop |  |
+| double VaccMortDrop |  |
+| double VaccSympDrop |  |
+| double VaccDelayMean |  |
+| double VaccTimeStart |  |
+| double VaccTimeEfficacySwitch |  |
+| double VaccTimeStartGeo |  |
+| double VaccTimeToEfficacy |  |
+| double VaccProp |  |
+| double VaccRadius |  |
+| double VaccRadius2 |  |
+| double VaccMinRadius |  |
+| double VaccMinRadius2 |  |
+| double VaccPropCaseHouseholds |  |
+| double VaccHouseholdsDuration |  |
+| double VaccMaxCoursesBase |  |
+| double VaccNewCoursesRate |  |
+| double VaccNewCoursesStartTime |  |
+| double VaccMaxCourses |  |
+| double VaccNewCoursesEndTime |  |
+| double VaccEfficacyDecay |  |
+| double VaccCellIncThresh |  |
+| double VaccCampaignInterval |  |
+| double VaccCoverageIncreasePeriod |  |
+| int VaccDosePerDay |  |
+| double PreAlertControlPropCasesId |  |
+| double PostAlertControlPropCasesId |  |
+| double ControlPropCasesId |  |
+| double MoveRestrRadius |  |
+| double MoveRestrRadius2 |  |
+| double MoveDelayMean |  |
+| double MoveRestrEffect |  |
+| double MoveRestrDuration |  |
+| double MoveRestrTimeStart |  |
+| double AirportCloseTimeStart |  |
+| double AirportCloseDuration |  |
+| double AirportCloseEffectiveness |  |
+| double CaseIsolationDuration |  |
+| double CaseIsolationEffectiveness |  |
+| double CaseIsolationHouseEffectiveness |  |
+| double CaseIsolationDelay |  |
+| double CaseIsolationPolicyDuration |  |
+| double CaseIsolationProp |  |
+| double HQuarantineTimeStart |  |
+| double HQuarantineDelay |  |
+| double HQuarantineHouseDuration |  |
+| double HQuarantinePolicyDuration |  |
+| double HQuarantinePropIndivCompliant |  |
+| double HQuarantinePropHouseCompliant |  |
+| double[] HQuarantinePlaceEffect | size=NUM_PLACE_TYPE |
+| double HQuarantineSpatialEffect |  |
+| double HQuarantineHouseEffect |  |
+| int EnhancedSocDistClusterByHousehold |  |
+| double SocDistTimeStart |  |
+| double SocDistDuration |  |
+| double SocDistHouseholdEffect |  |
+| double[] SocDistPlaceEffect | size=NUM_PLACE_TYPES |
+| double SocDistSpatialEffect |  |
+| double EnhancedSocDistHouseholdEffect |  |
+| double[] EnhancedSocDistPlaceEffect | size=NUM_PLACE_TYPES |
+| double EnhancedSocDistSpatialEffect |  |
+| double[] EnhancedSocDistProportionCompliant | size=NUM_AGE_GROUPS |
+| double SocDistChangeDelay |  |
+| double SocDistDuration2 |  |
+| double SocDistHouseholdEffect2 |  |
+| double[] SocDistPlaceEffect2 | size=NUM_PLACE_TYPES |
+| double SocDistSpatialEffect2 |  |
+| double EnhancedSocDistSpatialEffect |  |
+| double EnhancedSocDistHouseholdEffect2 |  |
+| double[] EnhancedSocDistPlaceEffect2 | size=NUM_PLACE_TYPES |
+| double EnhancedSocDistSpatialEffect2 |  |
+| double SocDistDurationCurrent |  |
+| double SocDistHouseholdEffectCurrent |  |
+| double[] SocDistPlaceEffectCurrent | size=NUM_PLACE_TYPES |
+| double SocDistSpatialEffectCurrent |  |
+| double EnhancedSocDistHouseholdEffectCurrent |  |
+| double[] EnhancedSocDistPlaceEffectCurrent | size=NUM_PLACE_TYPES |
+| double EnhancedSocDistSpatialEffectCurrent |  |
+| double SocDistRadius |  |
+| double SocDistRadius2 |  |
 
 
 Cell

@@ -1,4 +1,4 @@
-#COVID port
+# COVID port
 
 ## Purpose
 
@@ -63,7 +63,7 @@ Also an opportunity for bit of Rust (always welcome).
 7. For overall run, optionally outputs origin/destination matrix. Calls RecordSample now if not called for every run.
 8. calls SaveSummaryResults
 
-#####Peripheral features
+##### Peripheral features
 - Performs a number of 'realisations' of the model
 - Uses an InterruptRun boolean for early exit
 - setall uses two longs to seed all random number generators (Rand.cpp from Pascal)
@@ -90,7 +90,7 @@ Also an opportunity for bit of Rust (always welcome).
 - DoInitUpdateProbs - set in SetupModel, triggers UpdateProbs. What does the criterion for doing this again mean? `(lcI - cI) > 0.2` (CovidSim.cpp) 
 - Comment in Update.cpp starting "currently commenting this out" relating to household digital contact tracting. Is this fine?
 - P.NC (int) is initialised to -1 in CovidSim.cpp but SetupModel runs P.ncw = P.nch = (int)sqrt((double)P.NC); P.NC = P.ncw * P.nch; if !P.DoHeteroDensity.
-
+- what is the significance of size of P.InvLifeExpecDist[MAX_ADUNITS][1001]
 
 ## Cleanup
 
