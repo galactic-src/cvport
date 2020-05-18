@@ -19,9 +19,9 @@ param
 | int NRactNE | number of non-extinct Runs |
 | int UpdatesPerSample | Number of time steps between samples |
 | int NumSamples | Total number of samples that will be made |
-| int NKR | Size of kernel lookup table |
+| int NKR | Size of kernel lookup table - arrays pre-populated by InitKernel |
 | int NK_HR | Factor to expand hi-res kernel lookup table by |
-| int MoveKernelType | |
+| int MoveKernelType | Configurable: "Kernel type". |
 | int AirportKernelType | |
 | int KernelType | Used to init particular Kernel type, set from P.MoveKernelType, P.AirportKernelType and P.PlaceTypeKernelType[#place types] |
 | unsigned int BinFileLen | |
@@ -406,6 +406,203 @@ param
 | double EnhancedSocDistSpatialEffectCurrent |  |
 | double SocDistRadius |  |
 | double SocDistRadius2 |  |
+| int VaryEfficaciesOverTime |  |
+| int Num_SD_ChangeTimes | must be at most MAX_NUM_INTERVENTION_CHANGE_TIMES |  
+| double[] SD_ChangeTimes | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; change times for intensity of (enhanced) social distancing
+| double[] SD_SpatialEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of SocDistSpatialEffectCurrent |
+| double[] SD_HouseholdEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of SocDistHouseholdEffectCurrent |
+| double[][] SD_PlaceEffects_OverTime | dims=MAX_NUM_INTERVENTION_CHANGE_TIMES * NUM_PLACE_TYPES; indexed by i) change time; ii) place type;  time-varying equivalent of SocDistPlaceEffectCurrent |
+| double[] SD_CellIncThresh_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of SocDistCellIncThresh |
+| double[] Enhanced_SD_SpatialEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of EnhancedSocDistSpatialEffectCurrent |
+| double[] Enhanced_SD_HouseholdEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of EnhancedSocDistHouseholdEffectCurrent |
+| double[][] Enhanced_SD_PlaceEffects_OverTime | dims=MAX_NUM_INTERVENTION_CHANGE_TIMES * NUM_PLACE_TYPES; indexed by i) change time; ii) place type;  time-varying equivalent of EnhancedSocDistPlaceEffectCurrent |
+| int Num_CI_ChangeTimes | must be at most MAX_NUM_INTERVENTION_CHANGE_TIMES |
+| double[] CI_ChangeTimes | change times for intensity of case isolation |
+| double[] CI_SpatialAndPlaceEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of CaseIsolationEffectiveness |
+| double[] CI_HouseholdEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of CaseIsolationHouseEffectiveness |
+| double[] CI_Prop_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of CaseIsolationProp |
+| double[] CI_CellIncThresh_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of CaseIsolation_CellIncThresh |
+| int Num_HQ_ChangeTimes | max=MAX_NUM_INTERVENTION_CHANGE_TIMES
+| double[] HQ_ChangeTimes | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; change times for intensity of household quarantine |
+| double[] HQ_SpatialEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of HQuarantineSpatialEffect |
+| double[] HQ_HouseholdEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of HQuarantineHouseEffect |
+| double[][] HQ_PlaceEffects_OverTime | dims=MAX_NUM_INTERVENTION_CHANGE_TIMES * NUM_PLACE_TYPES; indexed by i) change time; ii) place type; time-varying equivalent of HQuarantinePlaceEffect |
+| double[] HQ_Individual_PropComply_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of HQuarantinePropIndivCompliant |
+| double[] HQ_Household_PropComply_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of HQuarantinePropHouseCompliant |
+| double[] HQ_CellIncThresh_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of HHQuar_CellIncThresh |
+| int Num_PC_ChangeTimes | max=MAX_NUM_INTERVENTION_CHANGE_TIMES |
+| double[] PC_ChangeTimes | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; change times for intensity of place closure |
+| double[] PC_SpatialEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of PlaceCloseSpatialRelContact |
+| double[] PC_HouseholdEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of PlaceCloseHouseholdRelContact |
+| double[][] PC_PlaceEffects_OverTime | dims=MAX_NUM_INTERVENTION_CHANGE_TIMES * NUM_PLACE_TYPES; indexed by i) change time; ii) place type; //// time-varying equivalent of PlaceCloseEffect |
+| double[][] PC_PropAttending_OverTime | dims=MAX_NUM_INTERVENTION_CHANGE_TIMES * NUM_PLACE_TYPES |
+| int[] PC_IncThresh_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of PlaceCloseIncTrig / PlaceCloseIncTrig1 |
+| double[] PC_FracIncThresh_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of PlaceCloseFracIncTrig |
+| int[] PC_CellIncThresh_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of PlaceCloseCellIncThresh |
+| double[] PC_Durs_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of PlaceCloseDuration |
+| int Num_DCT_ChangeTimes | max=MAX_NUM_INTERVENTION_CHANGE_TIMES | 
+| double[] DCT_ChangeTimes | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; change times for intensity of digital contact tracing |
+| double[] DCT_SpatialAndPlaceEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of DCTCaseIsolationEffectiveness |
+| double[] DCT_HouseholdEffects_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of DCTCaseIsolationHouseEffectiveness |
+| double[] DCT_Prop_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES; time-varying equivalent of ProportionDigitalContactsIsolate |
+| int DCT_MaxToTrace_OverTime | size=MAX_NUM_INTERVENTION_CHANGE_TIMES |
+| double KeyWorkerProphTimeStart |  |
+| double KeyWorkerProphDuration |  |
+| double[] KeyWorkerPropInKeyPlaces | size=NUM_PLACE_TYPES |
+| double KeyWorkerHouseProp |  |
+| double KeyWorkerProphRenewalDuration |  |
+| double KeyWorkerProphRadius |  |
+| double KeyWorkerProphRadius2 |  |
+| double TreatTimeStartBase |  |
+| double VaccTimeStartBase |  |
+| double MoveRestrTimeStartBase |  |
+| double PlaceCloseTimeStartBase |  |
+| double PlaceCloseTimeStartBase2 |  |
+| double PlaceCloseTimeStartPrevious |  |
+| double AirportCloseTimeStartBase |  |
+| double HQuarantineTimeStartBase |  |
+| double CaseIsolationTimeStartBase |  |
+| double SocDistTimeStartBase |  |
+| double KeyWorkerProphTimeStartBase |  |
+| double DigitalContactTracingTimeStartBase |  |
+| double InfectionImportRate1 |  |
+| double InfectionImportRate2 |  |
+| double InfectionImportChangeTime |  |
+| double[] ImportInfectionTimeProfile | size=MAX_DUR_IMPORT_PROFILE |
+| double PreControlClusterIdTime |  |
+| double PreControlClusterIdCalTime |  |
+| double PreControlClusterIdHolOffset |  |
+| double PreIntervIdCalTime |  |
+| double PreIntervTime |  |
+| double SeedingScaling |  |
+| int PreControlClusterIdCaseThreshold |  |
+| int PreControlClusterIdUseDeaths |  |
+| int PreControlClusterIdDuration |  |
+| int DoAlertTriggerAfterInterv |  |
+| int AlertTriggerAfterIntervThreshold |  |
+| int StopCalibration |  |
+| int ModelCalibIteration |  |
+| int DoPerCapitaTriggers |  |
+| int DoGlobalTriggers |  |
+| int DoAdminTriggers |  |
+| int DoICUTriggers |  |
+| int MoveRestrCellIncThresh |  |
+| int DoHQretrigger |  |
+| int PlaceCloseCellIncThresh |  |
+| int PlaceCloseCellIncThresh1 |  |
+| int PlaceCloseCellIncThresh2 |  |
+| int TriggersSamplingInterval |  |
+| int PlaceCloseIndepThresh |  |
+| int SocDistCellIncThresh |  |
+| int[] VaccPriorityGroupAge | size=2 |
+| int PlaceCloseCellIncStopThresh |  |
+| int SocDistCellIncStopThresh |  |
+| int[] PlaceCloseAdunitPlaceTypes | size=NUM_PLACE_TYPES |
+| int DoPlaceCloseOnceOnly |  |
+| int DoSocDistOnceOnly |  |
+| int DoMoveRestrOnceOnly |  |
+| int DoKeyWorkerProphOnceOnly |  |
+| int VaccMaxRounds |  |
+| int VaccByAdminUnit |  |
+| int VaccAdminUnitDivisor |  |
+| int TreatByAdminUnit |  |
+| int TreatAdminUnitDivisor |  |
+| int MoveRestrByAdminUnit |  |
+| int MoveRestrAdminUnitDivisor |  |
+| int PlaceCloseByAdminUnit |  |
+| int PlaceCloseAdminUnitDivisor |  |
+| int KeyWorkerProphCellIncThresh |  |
+| int KeyWorkerPopNum |  |
+| int[] KeyWorkerPlaceNum | size=NUM_PLACE_TYPES |
+| int KeyWorkerNum |  |
+| int KeyWorkerIncHouseNum |  |
+| int DoBlanketMoveRestr |  |
+| int PlaceCloseIncTrig |  |
+| int PlaceCloseIncTrig1 |  |
+| int PlaceCloseIncTrig2 |  |
+| int TreatMaxCoursesPerCase |  |
+| int DoImportsViaAirports |  |
+| int DoMassVacc |  |
+| int DurImportTimeProfile |  |
+| unsigned short int usHQuarantineHouseDuration |  |
+| unsigned short int usVaccTimeToEfficacy |  |
+| unsigned short int usVaccTimeEfficacySwitch | us = unsigned short versions of their namesakes, multiplied by P.TimeStepsPerDay |
+| unsigned short int usCaseIsolationDuration |  |
+| unsigned short int usCaseIsolationDelay |  |
+| unsigned short int usCaseAbsenteeismDuration |  |
+| unsigned short int usCaseAbsenteeismDelay |  |
+| int DoRecordInfEvents | DoRecordInfEvents and MaxInfEvents give the user a choice as to whether to output infection events as a line list |
+| int MaxInfEvents |  |
+| int RecordInfEventsPerRun |  |
+| double KernelPowerScale |  |
+| double KernelOffsetScale |  |
+| int LimitNumInfections |  |
+| int MaxNumInfections |  |
+| int DoDigitalContactTracing |  |
+| int ClusterDigitalContactUsers |  |
+| int NDigitalContactUsers |  |
+| int NDigitalHouseholdUsers |  |
+| int FindContactsOfDCTContacts |  |
+| int DoDCTTest |  |
+| double PropPopUsingDigitalContactTracing |  |
+| double ScalingFactorSpatialDigitalContacts |  |
+| double ScalingFactorPlaceDigitalContacts |  |
+| double DigitalContactTracingDelay |  |
+| double LengthDigitalContactIsolation |  |
+| double ProportionDigitalContactsIsolate |  |
+| double ProportionSmartphoneUsersByAge | size=NUM_AGE_GROUPS |
+| double DelayFromIndexCaseDetectionToDCTIsolation |  |
+| double DelayToTestIndexCase |  |
+| double DelayToTestDCTContacts |  |
+| double SpecificityDCT |  |
+| double SensitivityDCT |  |
+| double DigitalContactTracingPolicyDuration |  |
+| double DCTCaseIsolationHouseEffectiveness |  |
+| double DCTCaseIsolationEffectiveness |  |
+| int OutputDigitalContactTracing |  |
+| int OutputDigitalContactDist |  |
+| int IncludeHouseholdDigitalContactTracing |  |
+| int IncludePlaceGroupDigitalContactTracing |  |
+| int DCTIsolateIndexCases |  |
+| int RemoveContactsOfNegativeIndexCase |  |
+| int MaxDigitalContactsToTrace |  |
+| int DoOriginDestinationMatrix |  |
+| int DoInterventionDelaysByAdUnit |  |
+| int OutputAge |  |
+| int OutputR0 |  |
+| int OutputControls |  |
+| int OutputCountry |  |
+| int OutputAdUnitVar |  |
+| int OutputHousehold |  |
+| int OutputInfType |  |
+| int OutputNonSeverity |  |
+| int OutputSeverityAdminUnit |  |
+| int OutputSeverityAge |  |
+| int OutputNonSummaryResults |  |
+| int MeanChildAgeGap | Average gap between ages of children in a household, in years |
+| int MinAdultAge | The youngest age, in years, at which someone is considered to be an adult |
+| int MaxMFPartnerAgeGap | The largest number of years older than a female partner that a male partner can be |
+| int MaxFMPartnerAgeGap | The largest number of years older than a male partner that a female partner can be |
+| int MinParentAgeGap | The minimum number of years older than a child that a parent must be |
+| int MaxParentAgeGap | The maximum number of years older than a child that a parent can be |
+| int MaxChildAge | The maximum age, in years, of a child |
+| double OneChildTwoPersProb |  |
+| double TwoChildThreePersProb |  |
+| double OnePersHouseProbOld |  |
+| double TwoPersHouseProbOld |  |
+| double OnePersHouseProbYoung |  |
+| double TwoPersHouseProbYoung |  |
+| double OneChildProbYoungestChildUnderFive |  |
+| double TwoChildrenProbYoungestUnderFive |  |
+| double ProbYoungestChildUnderFive |  |
+| double ZeroChildThreePersProb |  |
+| double OneChildFourPersProb |  |
+| double YoungAndSingleSlope |  |
+| int YoungAndSingle |  |
+| int NoChildPersAge |  |
+| int OldPersAge |  |
+| double ThreeChildFivePersProb |  |
+| int OlderGenGap |  |
 
 
 Cell

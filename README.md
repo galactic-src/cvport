@@ -94,7 +94,9 @@ Also an opportunity for bit of Rust (always welcome).
 
 ## Cleanup
 
-- InitKernel (Kernels.cpp): DoPlaces parameter is unreferenced, and norm parameter is always 1.0 (no effect)
-- SetupModel.cpp "Binary densi\zty file should contain %i cells." remove \z
-- SetupModel.cpp reads into P.BinFileLen to inspect a magic number in first 4 bytes of density file. Use a different variable.
-
+- PR
+  - InitKernel (Kernels.cpp): DoPlaces parameter is unreferenced, and norm parameter is always 1.0 (no effect)
+  - SetupModel.cpp "Binary densi\zty file should contain %i cells." remove \z
+  - SetupModel.cpp reads into P.BinFileLen to inspect a magic number in first 4 bytes of density file. Use a different variable.
+- InitProbs() declaration in SetupModel.h, but implementation in CovidSim.cpp
+- input-params.txt has a leftover merge conflict marker
