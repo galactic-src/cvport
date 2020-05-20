@@ -3,7 +3,7 @@
 ## Purpose
 
 The simulation used by the UK government to guide policy, and made public at https://github.com/mrc-ide/covid-sim was made years ago. 
-It is relatively untested, has code transpiled from Fortran to C and people are whingeing hard that any political decisions
+It is relatively untested, has code transpiled from Pascal to C and people are whingeing hard that any political decisions
 have been made off the back of it.
 
 It's a huge project, and this is definitely not going to reimplement it, but I thought I'd do a bit of porting to see if it turned up any odd behaviour, so I can raise it as an issue.
