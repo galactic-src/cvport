@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The simulation used by the government to guid policy, and made public at https://github.com/mrc-ide/covid-sim was made years ago. 
+The simulation used by the UK government to guide policy, and made public at https://github.com/mrc-ide/covid-sim was made years ago. 
 It is relatively untested, has code transpiled from Fortran to C and people are whingeing hard that any political decisions
 have been made off the back of it.
 
