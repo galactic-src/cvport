@@ -100,3 +100,4 @@ Also an opportunity for bit of Rust (always welcome).
   - SetupModel.cpp reads into P.BinFileLen to inspect a magic number in first 4 bytes of density file. Use a different variable.
 - InitProbs() declaration in SetupModel.h, but implementation in CovidSim.cpp
 - input-params.txt has a leftover merge conflict marker
+- Inconsistent use of brackets to assign default value to P.LongitudeCutLine 

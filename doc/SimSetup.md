@@ -10,13 +10,14 @@ I expect it will be most straightforward to add features to this project in a si
 
 ### SetupModel() Part 1
 
-#####Init Random number generation
+##### Init Random number generation
 
 - Allocates storage arrays for ranf (random number generation?) with enough space for MAX_NUM_THREADS * CACHE_LINE_SIZE longs.
 - Calls setall() with setupSeed1 and setupSeed2.
 
-#####Setup simulation area IF using population density data
+##### Setup simulation area IF using population density data
 
+- if doing admin unit boundaries, update SpatialBoundingBox to precisely incorporate all population and update admin unit counts
 - set cell height = cell width
 - temporarily normalise P.SpatialBoundingBox to a whole number of cells, now their size is established (SpatialBoundingBox = [x_min, y_min, x_max, y_max])
 - temporarily set P.width and P.height according to calculated SpatialBoundingBox deltas
@@ -25,9 +26,21 @@ I expect it will be most straightforward to add features to this project in a si
 - update P.SpatialBoundingBox to reflect the new P.width and P.height
 - set P.NC, total number of cells from ncw and nch
 
-#####Setup simulation area IF assuming constant population density
+##### Setup simulation area IF assuming constant population density
 
 This looks broken - we immediately read P.NC even though it has been set to -1 in CovidSim.cpp?
 Need to run something without a population file and check logging (added to README.md)
 
+##### Propagate normalised values
 
+- set microcell totals (NMC, nmcw, nmch, mcwidth, mcheight) according to NMCL and NC
+- set bitmap specs (bwidth, bheight, bheight2, scalex, scaley, bminx, bminy) according to width, height, BitmapScale, BitmapAspectScale and BoundingBox[]
+- normalise LocationInitialInfection values according to SpatialBoundingBox
+- set KernelDelta (max distance/NKR (kernel resolution)). Max distance is either maximum of diagonal, straight up height or straight across width, using dist2_raw (quartered if DoPeriodicBoundaries).
+
+##### call SetupPopulation(DensityFile, SchoolFile, RegDemogFile)
+
+- allocate for `Cells` (Cell[P.NC]), `Mcells` (Microcell[P.NMC]), `mcell_num` (int[P.NMC]), `mcell_dens` (double[P.NMC]), `mcell_country` (int[P.NMC]), `mcell_adunits` (int[P.NMC])
+- if not handling varied population density, all mcell_dens set to 1.0 and all Mcells[].country set to 1
+- otherwise use density file data (in `BF` of length `P.BinFileLength`):
+  - iterate over entries

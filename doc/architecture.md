@@ -1,6 +1,6 @@
-#Architecture Ideas
+# Architecture Ideas
 
-##Commentary
+## Commentary
 
 Currently, the model is executed in a series of top-level functions.
 It is primarily C code, not using OO or control flow features of C++.
@@ -16,7 +16,12 @@ The large functions and data structures mean the code is very resistant to unit 
 However, given that it is based around sampling random values, the fact that the random values are seeded explicitly allows for deterministic runs.
 This has allowed at least a basic regression test to be formulated, based on a hash of outputs after known seeds were used.
 
-##Issues
+## Data structure
+
+The most granular information, in terms of located data, is the microcell. Each microcell belongs to a particular cell, country, administrative unit (~country region).
+Administrative units are given a code, consisting of 
+
+## Issues
 
 The lack of testability is a big concern. We can't get around this without
 - avoiding global state
@@ -29,7 +34,7 @@ In reimplementing, simplicity should take priority and hot code can be identifie
 
 I am uncertain how good the random number generation is - not my area. Rather than reimplementing the rand.cpp code, I would certainly look to something like the rand crate.
 
-##Possible Approach
+## Possible Approach
 
 My initial instinct is to split the model state down into smaller optional pieces, which may impact each other during a sweep via a publish/subscribe model.
 During setup, the required objects would be created and subscribe to the events emitted by the other objects that may trigger updates in them.

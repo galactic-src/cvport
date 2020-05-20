@@ -49,7 +49,7 @@ param
 | int DoCorrectAgeDist |  |
 | int DoPartialImmunity |  |
 | int DoAdUnits |  |
-| int NumAdunits |  |
+| int NumAdunits | Number of Administrative Units |
 | int DoAdunitBoundaries |  |
 | int AdunitLevel1Divisor |  |
 | int AdunitLevel1Mask |  |
@@ -132,7 +132,7 @@ param
 | int ResetSeedsPostIntervention |  |
 | int ResetSeedsFlag |  |
 | int TimeToResetSeeds |  |
-| double LongitudeCutLine | Longitude to image earth is cut at to produce a flat map.  Default -360 degrees (effectively -180).  Use to ensure countries have a contiguous boundary |
+| double LongitudeCutLine | Longitude to image earth is cut at to produce a flat map when parsing density file data.  Default -360 degrees (effectively -180).  Use to ensure countries have a contiguous boundary |
 | double[] SpatialBoundingBox | size=4 |
 | double[][] LocationInitialInfection | dims=MAX_NUM_SEED_LOCATIONS * 2
 | double[] InitialInfectionsAdminUnitWeight | size=MAX_NUM_SEED_LOCATIONS |
@@ -637,4 +637,45 @@ Pointer Array: McellLookup
 
 | Field | Represents |
 |----------|------------|
-|||
+| int n | Number of people in microcell |
+| int adunit |  |
+| unsigned short int | country |
+| int*[] places | size=NUM_PLACE_TYPES |
+| unsigned short int[]  np | size=NUM_PLACE_TYPES |
+| unsigned short int moverest |  |
+| unsigned short int placeclose |  |
+| unsigned short int socdist |  |
+| unsigned short int keyworkerproph |  |
+| unsigned short int move_trig |  |
+| unsigned short int place_trig |  |
+| unsigned short int socdist_trig |  |
+| unsigned short int keyworkerproph_trig |  |
+| unsigned short int move_start_time |  |
+| unsigned short int move_end_time |  |
+| unsigned short int place_end_time |  |
+| unsigned short int socdist_end_time |  |
+| unsigned short int keyworkerproph_end_time |  |
+| unsigned short int treat |  |
+| unsigned short int vacc |  |
+| unsigned short int treat_trig |  |
+| unsigned short int vacc_trig |  |
+| unsigned short int treat_start_time |  |
+| unsigned short int treat_end_time |  |
+| unsigned short int vacc_start_time |  |
+| IndexList* AirportList |  |
+	;
+
+
+
+BinFile (used for density file)
+File parsed as series of lines, all of form: x y pop cnt as
+- Array BF (count = P.BinFileLen)
+Note that multiple entries may end up aggregated into the same microcell
+
+| Field | Represents |
+|----------|------------|
+| double x | x coordinate |
+| double y | y coordinate |
+| double pop | population density |
+| int cnt | country |
+| int ad | admin unit |
