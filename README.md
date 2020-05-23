@@ -94,10 +94,14 @@ Also an opportunity for bit of Rust (always welcome).
 
 ## Cleanup
 
-- PR
-  - InitKernel (Kernels.cpp): DoPlaces parameter is unreferenced, and norm parameter is always 1.0 (no effect)
-  - SetupModel.cpp "Binary densi\zty file should contain %i cells." remove \z
-  - SetupModel.cpp reads into P.BinFileLen to inspect a magic number in first 4 bytes of density file. Use a different variable.
+- InitKernel (Kernels.cpp): DoPlaces parameter is unreferenced, and norm parameter is always 1.0 (no effect)
+- SetupModel.cpp "Binary densi\zty file should contain %i cells." remove \z
+- SetupModel.cpp reads into P.BinFileLen to inspect a magic number in first 4 bytes of density file. Use a different variable.
 - InitProbs() declaration in SetupModel.h, but implementation in CovidSim.cpp
 - input-params.txt has a leftover merge conflict marker
-- Inconsistent use of brackets to assign default value to P.LongitudeCutLine 
+- SetupModel.cpp "Cell %i has adunits < 0 (indexing AdUnits)\n" logging should refer to microcells
+- SetupModel.cpp "Unable to allocate cell storage\n" logging should refer to microcells
+- remove obstructive mcl variable in SetupPopulation (SetupModel.cpp)
+*** resolved to here
+- Inconsistent use of brackets to assign default value to P.LongitudeCutLine
+- Simpler to always compare <= maximum of the SpatialBoundingBox and not add the fudge factor? 

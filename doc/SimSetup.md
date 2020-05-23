@@ -44,3 +44,12 @@ Need to run something without a population file and check logging (added to READ
 - if not handling varied population density, all mcell_dens set to 1.0 and all Mcells[].country set to 1
 - otherwise use density file data (in `BF` of length `P.BinFileLength`):
   - iterate over entries
+  - each x/y coordinate is resolved to a microcell. The pop field is averaged by keeping a total density and a tally of how many entries resolved to the microcell. This is then divided to calculate an average.
+  - maxd holds the total of all densities, once averaging is complete.
+  - then for each microcell, the resolved density is divided by the total density to give a proportion of the population to assign to the microcell.
+  - t holds the proportion of the population remaining to assign. m tracks how many people have been assigned.
+  - s is a probability for a binary sample. It is the ratio of remaining population to assign to total proportion of the population that should be in the microcell. So if 10% of the population should be in the microcell and 15% remains to be allocated, each remaining person gets a 10/15 = 2/3 chance of being allocated to the microcell.
+  - s is capped at 1.0 (could be greater if we happened to overallocate significantly). In that case, every remaining person is allocated to this microcell (e.g. 10% of people should be in the microcell and only 9% of the population remains to be allocated).
+- all but the last microcell are iterated over, then the final one is assigned the remainder of the population.
+- total person-containing cells tallied in P.NMCP. Number of people assigned stored in Mcells[i].n
+- 

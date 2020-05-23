@@ -617,19 +617,19 @@ Cell
 | int I | infected? |
 | int R | recovered? |
 | int D | died? |
-| int cumTC ||
+| int cumTC |  |
 | int S0 | initial number of susceptibles within cell |
 | int tot_treat | total number of people treated within cell |
-| int tot_vacc | total number of people vaccinated within cell|
-| int *members ||
-| int *susceptible ||
-| int *latent ||
-| int *infected ||
-| int *InvCDF ||
-| float tot_prob ||
-| float *cum_trans ||
-| float *max_trans ||
-| short[] CurInterv | size=MAX_INTERVENTION_TYPES|
+| int tot_vacc | total number of people vaccinated within cell |
+| int *members |  |
+| int *susceptible |  |
+| int *latent |  |
+| int *infected |  |
+| int *InvCDF |  |
+| float tot_prob |  |
+| float *cum_trans |  |
+| float *max_trans |  |
+| short[] CurInterv | size=MAX_INTERVENTION_TYPES |
 
 Microcell
 Array: Mcells (count = P.NMC)
@@ -663,8 +663,6 @@ Pointer Array: McellLookup
 | unsigned short int treat_end_time |  |
 | unsigned short int vacc_start_time |  |
 | IndexList* AirportList |  |
-	;
-
 
 
 BinFile (used for density file)
