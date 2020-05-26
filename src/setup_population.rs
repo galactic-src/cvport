@@ -1,7 +1,8 @@
 use geo::Coordinate;
 use log::info;
 
-use crate::grid::{Grid, DemographicData, DemographicPoint};
+use crate::grid::Grid;
+use crate::demographic_data::{DemographicData, DemographicPoint};
 
 pub struct PopulationAllocator {
     compatibility: bool

@@ -1,11 +1,13 @@
 mod grid;
 mod setup_population;
 mod compatibility;
+mod demographic_data;
 
 #[macro_use]
 extern crate approx;
 
-use grid::{ GridOptionsBuilder, build_grid, DemographicData, DemographicPoint, Bounds, GridOptions };
+use grid::{ GridOptionsBuilder, build_grid, Bounds, GridOptions };
+use demographic_data::{DemographicData, DemographicPoint};
 use setup_population::{ PopulationAllocator };
 use crate::compatibility::USE_COMPATIBILITY;
 
