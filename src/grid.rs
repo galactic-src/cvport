@@ -42,8 +42,16 @@ impl Bounds {
 
 
 #[derive(Copy, Clone, Debug, PartialEq)]
-struct MicroCell {
-    population: u32
+pub struct MicroCell {
+    pub population: u64
+}
+
+impl MicroCell {
+    fn empty() -> MicroCell {
+        MicroCell {
+            population: 0
+        }
+    }
 }
 
 const DELTA: f64 = 1e-6;
@@ -134,14 +142,16 @@ impl GridOptionsBuilder {
 }
 
 impl Grid {
-    fn new(bounds: Bounds, micro_cell_edge_length: f64) -> Grid {
+    pub fn new(bounds: Bounds, micro_cell_edge_length: f64) -> Grid {
         let (width, height) = count_micro_cells(micro_cell_edge_length, &bounds);
 
         let mut micro_cells = Vec::with_capacity(width);
 
         for _ in 0..width {
-            micro_cells.push(Vec::with_capacity(height));
+            micro_cells.push(vec![MicroCell::empty();height]);
         }
+
+        println!("{:?}", micro_cells);
 
         Grid { micro_cell_edge_length, bounds, width, height, micro_cells }
     }
@@ -150,6 +160,13 @@ impl Grid {
     pub fn height(&self) -> usize { self.height }
     pub fn bounds(&self) -> &Bounds { &self.bounds }
     pub fn micro_cell_edge_length(&self) -> f64 { self.micro_cell_edge_length }
+
+    pub fn micro_cell(&self, x: usize, y: usize) -> &MicroCell {
+        &self.micro_cells[x][y]
+    }
+    pub fn micro_cell_mut(&mut self, x: usize, y: usize) -> &mut MicroCell {
+        &mut self.micro_cells[x][y]
+    }
 }
 
 const DEFAULT_CELL_EDGE: f64 = 1.0/120.0;

@@ -1,4 +1,4 @@
-use geo::{Coordinate, Rect};
+use geo::{Coordinate};
 
 pub struct DemographicPoint {
     pub location: Coordinate<f64>,

@@ -19,7 +19,7 @@ fn main() {
     let population_override = None;
 
     PopulationAllocator::new(USE_COMPATIBILITY)
-        .allocate_population(&mut grid, &options.demographic_data.unwrap(), population_override);
+        .allocate_population(&mut grid, &options.demographic_data.unwrap(), population_override, &mut rand::thread_rng());
 }
 
 fn get_options() -> GridOptions {
