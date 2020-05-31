@@ -24,8 +24,10 @@ param
 | int MoveKernelType | Configurable: "Kernel type". |
 | int AirportKernelType | |
 | int KernelType | Used to init particular Kernel type, set from P.MoveKernelType, P.AirportKernelType and P.PlaceTypeKernelType[#place types] |
-| unsigned int BinFileLen | |
-| int DoBin, DoSaveSnapshot, DoLoadSnapshot | |
+| unsigned int BinFileLen | Number of lines in density file |
+| int DoBin | |
+| int DoSaveSnapshot | |
+| int DoLoadSnapshot | |
 | double SnapshotSaveTime | |
 | double SnapshotLoadTime | |
 | double clP1 | |
@@ -38,11 +40,11 @@ param
 | int NMC | Number of microcells |
 | int NMCL | Number of microcells wide/high a cell is; i.e. NMC = NC * NMCL * NMCL |
 | int NCP | Number of populated cells |
-| int NMCP |  |
-| int ncw |  |
-| int nch |  |
-| int nmcw |  |
-| int nmch | nch * NMCL |
+| int NMCP | Number of populated microcells |
+| int ncw | number of cells across bounds |
+| int nch | number of cells height of bounds |
+| int nmcw | number of microcells across bounds (ncw * NMCL) |
+| int nmch | number of microcells height of bounds (nch * NMCL) |
 | int DoUTM_coords |  |
 | int nsp |  |
 | int DoSeasonality |  |
@@ -243,7 +245,7 @@ param
 | int[] InvJourneyDurationDistrib | size=1025 | 
 | int[] InvLocalJourneyDurationDistrib | size=1025 |
 | double HouseholdTrans |  |
-| double[][] HouseholdSizeDistrib | dims=MAX_ADUNITS * MAX_HOUSEHOLD_SIZE |
+| double[][] HouseholdSizeDistrib | index 0 holds reference data of the proportion of households having n people. dims=MAX_ADUNITS * MAX_HOUSEHOLD_SIZE |
 | double HouseholdTransPow |  |
 | double[] HouseholdDenomLookup | size=MAX_HOUSEHOLD_SIZE |
 | int[] PlaceTypeAgeMin | size=NUM_PLACE_TYPES |
@@ -607,7 +609,7 @@ param
 
 Cell
 - Array: Cells (count = P.NC)
-- Pointer Array: CellLookup
+- Pointer Array: CellLookup (references to populated cells only)
 
 | Field | Represents |
 |----------|------------|
@@ -633,15 +635,15 @@ Cell
 
 Microcell
 Array: Mcells (count = P.NMC)
-Pointer Array: McellLookup
+Pointer Array: McellLookup (references to populated microcells only)
 
 | Field | Represents |
 |----------|------------|
 | int n | Number of people in microcell |
-| int adunit |  |
-| unsigned short int | country |
+| int adunit | administrative unit membership |
+| unsigned short int | country membership |
 | int*[] places | size=NUM_PLACE_TYPES |
-| unsigned short int[]  np | size=NUM_PLACE_TYPES |
+| unsigned short int[] np | size=NUM_PLACE_TYPES |
 | unsigned short int moverest |  |
 | unsigned short int placeclose |  |
 | unsigned short int socdist |  |
@@ -677,3 +679,124 @@ Note that multiple entries may end up aggregated into the same microcell
 | double pop | population density |
 | int cnt | country |
 | int ad | admin unit |
+
+PopVar - Global model state
+Instance: State
+Per-Thread Instance: StateT
+Includes several current totals and cumulative totals, including breakdowns by admin unit and age group.
+Also some "queues" and "member arrays".
+
+| Field | Represents |
+|----------|------------|
+| int S |  |
+| int L |  |
+| int I | infections |
+| int R |  |
+| int D |  |
+| int cumI | cumulative infections |
+| int cumR |  |
+| int cumD |  |
+| int cumC |  |
+| int cumTC |  |
+| int cumFC |  |
+| int cumDC | cumulative detected cases |
+| int trigDC |  |
+| int cumH | Cumulative hospitalisations |
+| int cumCT | cumulative contact tracing |
+| int cumCC |  |
+| int DCT | digital contact tracing |
+| int cumDCT | cumulative digital contact tracing |
+| int[] cumC_country | cumulative cases by country; size=MAX_COUNTRIES |
+| int cumHQ |  |
+| int cumAC |  |
+| int cumAA |  |
+| int cumAH |  |
+| int cumACS |  |
+| int cumAPC |  |
+| int cumAPA |  |
+| int cumAPCS |  |
+| int[] cumIa | cumulative infections by age group; size=NUM_AGE_GROUPS |
+| int[] cumCa | size=NUM_AGE_GROUPS |
+| int[] cumDa | size=NUM_AGE_GROUPS |
+| int[] cumI_adunit | size=MAX_ADUNITS |
+| int[] cumC_adunit | size=MAX_ADUNITS |
+| int[] cumD_adunit | size=MAX_ADUNITS |
+| int[] cumT_adunit | size=MAX_ADUNITS |
+| int[] cumH_adunit | cumulative hospitalisations per admin unit; size=MAX_ADUNITS |
+| int[] cumDC_adunit | cumulative detected cases per admin unit; size=MAX_ADUNITS |
+| int[] cumCT_adunit | cumulative contact tracing per admin unit; size=MAX_ADUNITS |
+| int[] cumCC_adunit | size=MAX_ADUNITS |
+| int[] trigDC_adunit | size=MAX_ADUNITS |
+| int[] cumDCT_adunit | cumulative digital contact tracing per admin unit; size=MAX_ADUNITS |
+| int[] DCT_adunit | overall digital contact tracing per admin unit; size=MAX_ADUNITS |
+| int[] cumCT_adunit | size=MAX_ADUNITS |
+| int[] cumItype | size=INFECT_TYPE_MASK |
+| int[] cumI_keyworker | size=2 |
+| int[] cumC_keyworker | size=2 |
+| int[] cumT_keyworker | size=2 |
+| Infection*[] inf_queue | "the queue (i.e. list) of infections. 1st index is thread, 2nd is person."; size=MAX_NUM_THREADS |
+| int[] n_queue | number of infections in inf_queue; size=MAX_NUM_THREADS |
+| int*[] p_queue | actual place queue, 1st index is place type, 2nd is place(i.e. list of places); size=NUM_PLACE_TYPES |
+| int*[] pg_queue | actual place-group queue; size=NUM_PLACE_TYPES |
+| int[] np_queue | number of places in place queue (by place type); size=NUM_PLACE_TYPES |
+| int[] NumPlacesClosed | size=NUM_PLACE_TYPES |
+| int n_mvacc |  | 
+| int mvacc_cum |  | 
+| float* cell_inf | List of spatial infectiousnesses by person within cell |
+| double sumRad2 |  |
+| double maxRad2 |  |
+| double cumT |  |
+| double cumV |  |
+| double cumVG |  |
+| double cumUT |  |
+| double cumTP |  |
+| double cumV_daily |  |
+| double cumVG_daily |  |
+| int* CellMemberArray |  |
+| int* CellSuscMemberArray | An int for each person size=P.POP_SIZE |
+| int** InvAgeDist |  |
+| int* mvacc_queue |  |
+| int[] nct_queue | queue for contact tracing; size=MAX_ADUNITS |
+| ContactEvent*[] dct_queue | queues for digital contact tracing; size=MAX_ADUNITS |
+| int[] ndct_queue | queues for digital contact tracing; size=MAX_ADUNITS |
+| int[] contact_dist | contact distribution; size=MAX_CONTACTS+1 |
+| double*[] origin_dest | intermediate storage for calculation of origin-destination matrix; size=MAX_ADUNITS |
+| int Mild |  |
+| int ILI |  |
+| int SARI |  |
+| int Critical |  |
+| int CritRecov |  |
+| int cumMild |  |
+| int cumILI |  |
+| int cumSARI |  |
+| int cumCritical |  |
+| int cumCritRecov |  |
+| int[] Mild_adunit | size=MAX_ADUNITS |
+| int[] ILI_adunit | size=MAX_ADUNITS |
+| int[] SARI_adunit | size=MAX_ADUNITS |
+| int[] Critical_adunit | size=MAX_ADUNITS |
+| int[] CritRecov_adunit | size=MAX_ADUNITS |
+| int[] cumMild_adunit | size=MAX_ADUNITS |
+| int[] cumILI_adunit | size=MAX_ADUNITS |
+| int[] cumSARI_adunit | size=MAX_ADUNITS |
+| int[] cumCritical_adunit | size=MAX_ADUNITS |
+| int[] cumCritRecov_adunit | size=MAX_ADUNITS |
+| int[] Mild_age | size=NUM_AGE_GROUPS |
+| int[] ILI_age | size=NUM_AGE_GROUPS |
+| int[] SARI_age | size=NUM_AGE_GROUPS |
+| int[] Critical_age | size=NUM_AGE_GROUPS |
+| int[] CritRecov_age | size=NUM_AGE_GROUPS |
+| int[] cumMild_age | size=NUM_AGE_GROUPS |
+| int[] cumILI_age | size=NUM_AGE_GROUPS |
+| int[] cumSARI_age | size=NUM_AGE_GROUPS |
+| int[] cumCritical_age | size=NUM_AGE_GROUPS |
+| int[] cumCritRecov_age | size=NUM_AGE_GROUPS |
+| int cumDeath_ILI | cumulative deaths from ILI severity |
+| int cumDeath_SARI | cumulative deaths from SARI severity |
+| int cumDeath_Critical | cumulative deaths from Critical severity |
+| int[] cumDeath_ILI_adunit | cumulative deaths from ILI severity by admin unit; size=MAX_ADUNITS |
+| int[] cumDeath_SARI_adunit | cumulative deaths from SARI severity by admin unit; size=MAX_ADUNITS |
+| int[] cumDeath_Critical_adunit | cumulative deaths from Critical severity by admin unit; size=MAX_ADUNITS |
+| int[] cumDeath_ILI_age | cumulative deaths from ILI severity by age group; size=NUM_AGE_GROUPS |
+| int[] cumDeath_SARI_age | cumulative deaths from SARI severity by age group; size=NUM_AGE_GROUPS |
+| int[] cumDeath_Critical_age | cumulative deaths from Critical severity by age group; size=NUM_AGE_GROUPS |

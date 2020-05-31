@@ -1,13 +1,13 @@
-# COVID port
+# Imperial pandemic simulator port
 
 ## Purpose
 
-The simulation used by the UK government to guide policy, and made public at https://github.com/mrc-ide/covid-sim was made years ago. 
-It is relatively untested, has code transpiled from Pascal to C and people are whingeing hard that any political decisions
+The simulation was created by researchers at Imperial and is one source used by the UK government to guide policy. It was open-sourced at https://github.com/mrc-ide/covid-sim relatively recently.
+It is relatively untested, has code translated from Pascal to C and people are whingeing hard that any political decisions
 have been made off the back of it.
 
-It's a huge project, and this is definitely not going to reimplement it, but I thought I'd do a bit of porting to see if it turned up any odd behaviour, so I can raise it as an issue.
-Also an opportunity for bit of Rust (always welcome).
+It's a huge project, and this is definitely not going to fully reimplement it, but I thought I'd do a bit of porting to see if it turned up any odd behaviour, so I can raise it as an issue.
+This is also an opportunity for bit of Rust (always welcome!).
 
 ## A vague plan
 
@@ -15,12 +15,16 @@ Also an opportunity for bit of Rust (always welcome).
 2. Write a high-level overview of function calls within CovidSim.cpp ✓
 3. Build list of outstanding queries related to docs/CovidSim.cpp ✓
 4. Summarise contents of code files ✓
-5. Build summary of types and their uses
+5. Jot down initial architecture ideas for new implementation ✓
 6. Come up with vocab for stages in pipeline for later reference as to where labels are used
-7. Come up with an initial architectural overview for new implementation
-8. List some leaf functions to port
-9. Begin porting some functions
-10. Revisit outstanding queries
+7. Code to set up a micro-cell based population grid. ✓
+8. Code to run a single proximity-transmission update step.
+10. Code to run a configurable number of steps.
+11. Code to run a number of realisations each of n steps.
+
+Ongoing 
+- Build summary of types and their uses (WIP)
+- Revisit outstanding queries
 
 ## High-level overview
 
@@ -91,6 +95,8 @@ Also an opportunity for bit of Rust (always welcome).
 - Comment in Update.cpp starting "currently commenting this out" relating to household digital contact tracting. Is this fine?
 - P.NC (int) is initialised to -1 in CovidSim.cpp but SetupModel runs P.ncw = P.nch = (int)sqrt((double)P.NC); P.NC = P.ncw * P.nch; if !P.DoHeteroDensity.
 - what is the significance of size of P.InvLifeExpecDist[MAX_ADUNITS][1001]
+- there is something like a TODO in Model.h which states DONE by only some points - see `above quantities need to be amended in following parts of code:`.
+- what are the queues in the State (struct PopVar) used for?
 
 ## Cleanup
 
@@ -105,3 +111,8 @@ Also an opportunity for bit of Rust (always welcome).
 *** resolved to here
 - Inconsistent use of brackets to assign default value to P.LongitudeCutLine
 - Simpler to always compare <= maximum of the SpatialBoundingBox and not add the fudge factor? 
+- Remove GotNR CLI arg - read directly to P.NumRealisations
+- unpack complex conditional in CovidSim.cpp `if(((!P.DoAlertTriggerAfterInterv) && (trigAlert >= P.PreControlClusterIdCaseThreshold))`
+- error on more than MAXINTFILE /I: options supplied (overflows array)
+- assert no spaces when reading SaveSnapshot parameter?
+- log warning (or panic?) if max num threads CLI arg supplied but _OPENMP not set
