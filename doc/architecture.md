@@ -57,7 +57,7 @@ A place for me to dump additional features that could be implemented from the or
 All args are expected to start with a '/', or be of the format '?:' or '??:'.
 Panics if S and L options supplied (conflicting LoadSaveNetwork types) or if no P or O option present.
 
-| Arg(s) | Type | Feature |
+| Arg(s) | Type | Meaning |
 |---|---|---|
 | last 4 args | integer | 2x setup random number seeds and 2x run random number seeds |
 | /P: | string | 'ParamFile' (required): Param file (path?) |
@@ -84,11 +84,44 @@ Panics if S and L options supplied (conflicting LoadSaveNetwork types) or if no 
 | /SS: | string | sets P.DoSaveSnapshot and splits on first comma char into 'P.SnapshotSaveTime' (double) and 'SnapshotSaveFile' (string). Saves a snapshot at the specified time into the simulation |
 | /BM: | "bmp" or "png" | sets 'P.BitmapFormat' (png only supported for windows or if IMAGE_MAGICK library available |
 
+## Required parameters
+
+List of the places where GetInputParameter() is called unconditionally, i.e. these data are required for any simulation run.
+There are several other parameters that are conditionally required (e.g. if certain optional parameters are supplied, others may become required).
+
+| Description | Variable | Type | Feature |
+|---|---|---|---|
+| Update timestep | P.TimeStep | double |  |
+| Sampling timestep | P.SampleStep | double |  |
+| Sampling time | P.SampleTime | double |  |
+| Population size | P.PopSize | int |  |
+| Number of realisations | P.NumRealisations | int | (can supply via CLI) |
+| Number of micro-cells per spatial cell width | P.NMCL | int |  |
+| Initial number of infecteds | P.NumInitialInfections | int |  |
+| Reproduction number | P.R0 | double |  |
+| Infectious period | P.InfectiousPeriod | double |  |
+
 
 ### Features summary
 
+#### Model repetitions, timings and outputs
+
+The model is based on a stepwise routine, each step being one P.TimeStep (measured in days) long.
+A sample is taken after every P.SampleStep of time is modelled (an integer number of steps - P.TimeStep is scaled down to accommodate).
+The total run time to simulate is determined by P.RunTime.
+
+Each step consists of a single pass of RunModel, and results in various "sweeps" being carried out, to model the effects of e.g. people recovering or dying, and the transmission of the disease.
+Various interventions modulate the impact these phases.
+
+The full simulation is carried out a number of times - termed Realisations. 
+
+The output is a series of images (bmp or png) capturing the modelled spread of disease.
+
+
 #### Cells and Microcells
-TODO
+
+Data in the model is associated with a square grid, referred to as Cells and Microcells. Each cell is made up of a number of smaller Microcells.
+The overall area of interest need not be square.
 
 #### Variable population density
 
@@ -110,4 +143,25 @@ The binary density file is output if the /M:path/to/file CLI option is supplied.
 It has a magic number 0xf0f0f0f0 as its first 4 bytes.
 
 #### Administrative Units
+
 TODO
+
+#### Severity
+
+TODO
+
+#### Infection Seeding
+
+Number of initial infection seed locations is configured by the param file option "Number of seed locations". The number of initial infected individuals is set via param option "Initial number of infecteds".
+The maximum number of initial infections is MAX_NUM_SEED_LOCATIONS (10000)
+P.NumSeedLocations
+
+#### Holidays
+
+TODO
+
+#### Seasonality
+
+TODO
+
+#### Households

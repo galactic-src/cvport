@@ -16,11 +16,10 @@ This is also an opportunity for bit of Rust (always welcome!).
 3. Build list of outstanding queries related to docs/CovidSim.cpp ✓
 4. Summarise contents of code files ✓
 5. Jot down initial architecture ideas for new implementation ✓
-6. Come up with vocab for stages in pipeline for later reference as to where labels are used
-7. Code to set up a micro-cell based population grid. ✓
-8. Code to run a single proximity-transmission update step.
-10. Code to run a configurable number of steps.
-11. Code to run a number of realisations each of n steps.
+6. Code to set up a micro-cell based population grid. ✓
+7. Code to run a single proximity-transmission update step.
+8. Code to run a configurable number of steps.
+9. Code to run a number of realisations each of n steps.
 
 Ongoing 
 - Build summary of types and their uses (WIP)
@@ -116,3 +115,8 @@ Ongoing
 - error on more than MAXINTFILE /I: options supplied (overflows array)
 - assert no spaces when reading SaveSnapshot parameter?
 - log warning (or panic?) if max num threads CLI arg supplied but _OPENMP not set
+- use local variable for number of people in cell?
+- SetupModel typo infectionz
+- lot of renaming around nested loops at l = ((j / P.get_number_of_micro_cells_high()) / P.NMCL) * P.nch + ((j % P.get_number_of_micro_cells_high()) / P.NMCL)
+- RunModel rename continueEvents
+- Pull GetInputParameter function declarations out into a CovidSim header file
